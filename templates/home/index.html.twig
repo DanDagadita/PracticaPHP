@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        html, body {
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        #map {
+            width: 60%;
+            min-width: 520px;
+            height: 60%;
+            min-height: 360px;
+            margin: auto;
+        }
+
+        .upper {
+            min-height: 100px;
+            background-color: black;
+            margin-bottom: 60px;
+            border-top: 30px;
+        }
+
+        .location {
+            padding-top: 30px;
+            padding-left: 30px;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+<div class="upper">
+    <a href="/"><h1 style="color: white; margin: auto; padding-top: 30px; padding-left: 30px; font-family: Arial, sans-serif;">Charger</h1></a>
+</div>
+<div id="map"></div>
+
+<div class="location">
+    <h1 id="loc">Location name is: </h1>
+    <p id="lat">Latitude: </p>
+    <p id="lon">Longitude: </p>
+    <p id="spots">Total spots: </p>
+</div>
+
+<script>
+    var map = L.map('map').setView({lon: 25, lat: 45.75}, 7);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+    }).addTo(map);
+
+    L.control.scale({imperial: true, metric: true}).addTo(map);
+
+    {% for location in locations %}
+        var layer = L.marker({lon: {{ location.getLongitude() }}, lat: {{ location.getLatitude() }}}).bindPopup("{{ location.getName() }}").addTo(map);
+        layer.on('click', function(e) {
+            document.getElementById("loc").innerHTML = "Location name is: " + "{{ location.getName() }}";
+            document.getElementById("lat").innerHTML = "Latitude: " + "{{ location.getLatitude() }}";
+            document.getElementById("lon").innerHTML = "Longitude: " + "{{ location.getLongitude() }}";
+            document.getElementById("spots").innerHTML = "Total spots: " + "{{ location.getTotalSpots() }}";
+        } );
+    {% endfor %}
+
+</script>
+</body>
+
+{% endblock %}

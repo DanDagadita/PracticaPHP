@@ -16,6 +16,8 @@
 </div>
 <div id="map"></div>
 
+{# {% include 'filter/index.html.twig' %} #}
+
 <div class="location">
     <h1 id="loc">Location name is: </h1>
     <p id="lat">Latitude: </p>
@@ -24,25 +26,11 @@
 </div>
 
 <script>
-    var map = L.map('map').setView({lon: 25, lat: 45.75}, 7);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
-    }).addTo(map);
-
-    L.control.scale({imperial: true, metric: true}).addTo(map);
+    let map = GenerateMap();
 
     {% for location in locations %}
-        var layer = L.marker({lon: {{ location.getLongitude() }}, lat: {{ location.getLatitude() }}}).bindPopup("{{ location.getName() }}").addTo(map);
-        layer.on('click', function(e) {
-            document.getElementById("loc").innerHTML = "Location name is: " + "{{ location.getName() }}";
-            document.getElementById("lat").innerHTML = "Latitude: " + "{{ location.getLatitude() }}";
-            document.getElementById("lon").innerHTML = "Longitude: " + "{{ location.getLongitude() }}";
-            document.getElementById("spots").innerHTML = "Total spots: " + "{{ location.getTotalSpots() }}";
-        } );
+        PlaceMarkersMap(map, {{ location.getLongitude }}, {{ location.getLatitude }}, "{{ location.getName }}", {{ location.getTotalSpots }});
     {% endfor %}
-
 </script>
 </body>
 

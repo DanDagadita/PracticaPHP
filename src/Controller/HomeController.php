@@ -14,7 +14,6 @@ class HomeController extends AbstractController
     public function index(ManagerRegistry $doctrine): Response
     {
         $locations = $doctrine->getRepository(Location::class)->findAll();
-
         return $this->render('home/index.html.twig', [
             'locations' => $locations,
         ]);

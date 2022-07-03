@@ -16,20 +16,58 @@
 </div>
 <div id="map"></div>
 
-{# {% include 'filter/index.html.twig' %} #}
+{% include 'filter/index.html.twig' %}
 
 <div class="location">
     <h1 id="loc">Location name is: </h1>
-    <p id="lat">Latitude: </p>
-    <p id="lon">Longitude: </p>
     <p id="spots">Total spots: </p>
+    <p id="spots1">Type 1 spots: </p>
+    <p id="spots2">Type 2 spots: </p>
+    <p id="spots_e1">Type 1 empty spots: </p>
+    <p id="spots_e2">Type 2 empty spots: </p>
 </div>
 
 <script>
-    let map = GenerateMap();
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+
+    let long = 25, lat = 45.95, zoom = 7;
+    {% if locations|length < 15 %}
+        long = {{ locations|first.getLongitude }};
+        lat = {{ locations|first.getLatitude }};
+        zoom = 12;
+    {% endif %}
+
+    let map = GenerateMap(long, lat, zoom);
+
+    let type1 = 0, type2 = 0;
+    {% for station in locations|first.stations %}
+        {% if station.getType == "Type 1" %}
+            type1++;
+        {% else %}
+            type2++;
+        {% endif %}
+    {% endfor %}
+
+    let total = type1 + type2;
+
+    document.getElementById("loc").innerHTML = "Location name is: " + "{{ locations|first.getName }}";
+    document.getElementById("spots").innerHTML = "Total spots: " + total;
+    document.getElementById("spots1").innerHTML = "Type 1 spots: " + type1;
+    document.getElementById("spots2").innerHTML = "Type 2 spots: " + type2;
 
     {% for location in locations %}
-        PlaceMarkersMap(map, {{ location.getLongitude }}, {{ location.getLatitude }}, "{{ location.getName }}", {{ location.getTotalSpots }});
+        type1 = 0; type2 = 0;
+        {% for station in location.stations %}
+            {% if station.getType == "Type 1" %}
+                type1++;
+            {% else %}
+                type2++;
+            {% endif %}
+        {% endfor %}
+        total = type1 + type2;
+        PlaceMarkersMap(map, {{ location.getLongitude }}, {{ location.getLatitude }}, "{{ location.getName }}", type1, type2, total);
     {% endfor %}
 </script>
 </body>

@@ -18,9 +18,6 @@ class Location
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    #[ORM\Column(type: 'integer')]
-    private $total_spots;
-
     #[ORM\Column(type: 'float')]
     private $latitude;
 
@@ -29,6 +26,9 @@ class Location
 
     #[ORM\Column(type: 'float')]
     private $price;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $city;
 
     #[ORM\OneToMany(mappedBy: 'location', targetEntity: Station::class, orphanRemoval: true)]
     private $stations;
@@ -51,18 +51,6 @@ class Location
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getTotalSpots(): ?int
-    {
-        return $this->total_spots;
-    }
-
-    public function setTotalSpots(int $total_spots): self
-    {
-        $this->total_spots = $total_spots;
 
         return $this;
     }
@@ -99,6 +87,18 @@ class Location
     public function setPrice(float $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }

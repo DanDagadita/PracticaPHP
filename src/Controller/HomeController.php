@@ -36,25 +36,35 @@ class HomeController extends AbstractController
         if ($city !== 'Any') {
             $locations = $doctrine->getRepository(Location::class)->findBy(array('city' => $city));
         }
+        $type1 = []; $type2 = []; $total_types = [];
 
-        if ($type !== 'Any') {
-            for ($i = 0; $i < count($locations); $i++) {
-                $stations = $locations[$i]->getStations();
-                $found = false;
-                for ($j = 0; $j < count($stations); $j++) {
-                    if ($stations[$j]->getType() === $type) {
-                        $found = true;
-                    }
+        for ($i = 0; $i < count($locations); $i++) {
+            $type1[$i] = 0; $type2[$i] = 0;
+            $stations = $locations[$i]->getStations();
+            $found = false;
+            for ($j = 0; $j < count($stations); $j++) {
+                if ($stations[$j]->getType() === $type) {
+                    $found = true;
                 }
-                if (!$found) {
-                    unset($locations[$i]);
+                if ($stations[$j]->getType() === 'Type 1') {
+                    $type1[$i]++;
+                }
+                else {
+                    $type2[$i]++;
                 }
             }
+            if (!$found && $type !== 'Any') {
+                unset($locations[$i]);
+            }
+            $total_types[$i] = $type1[$i] + $type2[$i];
         }
 
         return $this->renderForm('home/index.html.twig', [
             'locations' => $locations,
             'form' => $form,
+            'type1arr' => $type1,
+            'type2arr' => $type2,
+            'total_typesarr' => $total_types
         ]);
 
     }

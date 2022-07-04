@@ -19,8 +19,17 @@
 
 {% include 'filter/index.html.twig' %}
 
+{% for location in locations %}
 <div class="location">
-    <h1 id="loc">Location name is: </h1>
+    <h1>Location name is: {{ location.getName }}</h1>
+    <p>Type 1 spots: {{ type1arr[loop.index0] }}</p>
+    <p>Type 2 spots: {{ type2arr[loop.index0] }}</p>
+    <p>Total spots: {{ total_typesarr[loop.index0] }}</p>
+</div>
+{% endfor %}
+
+<div class="location">
+    <h1 id="loc">Selected location name is: </h1>
     <p id="spots">Total spots: </p>
     <p id="spots1">Type 1 spots: </p>
     <p id="spots2">Type 2 spots: </p>
@@ -42,7 +51,7 @@
 
     let map = GenerateMap(long, lat, zoom);
 
-    document.getElementById("loc").innerHTML = "Location name is: " + "{{ locations|first.getName }}";
+    document.getElementById("loc").innerHTML = "Selected location name is: " + "{{ locations|first.getName }}";
     document.getElementById("spots").innerHTML = "Total spots: " + {{ total_typesarr|first }};
     document.getElementById("spots1").innerHTML = "Type 1 spots: " + {{ type1arr|first }};
     document.getElementById("spots2").innerHTML = "Type 2 spots: " + {{ type2arr|first }};

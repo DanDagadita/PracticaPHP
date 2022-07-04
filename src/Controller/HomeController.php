@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Station;
 use App\Form\FilterType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,6 +39,10 @@ class HomeController extends AbstractController
         }
         $type1 = []; $type2 = []; $total_types = [];
 
+
+        $stations_test = $doctrine->getRepository(Station::class)->findAllStations('Type 1');
+        //dd($stations_test);
+        //echo($stations_test[0]->getType());
         for ($i = 0; $i < count($locations); $i++) {
             $type1[$i] = 0; $type2[$i] = 0;
             $stations = $locations[$i]->getStations();

@@ -30,7 +30,7 @@ class Location
     #[ORM\Column(type: 'string', length: 255)]
     private $city;
 
-    #[ORM\OneToMany(mappedBy: 'location', targetEntity: Station::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'location', targetEntity: Station::class,orphanRemoval: true)]
     private $stations;
 
     public function __construct()

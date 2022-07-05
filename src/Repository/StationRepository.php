@@ -42,21 +42,11 @@ class StationRepository extends ServiceEntityRepository
     public function findAllStations(): array
     {
         return $this->createQueryBuilder('s')
-            ->select('s')
-            //->join('s.location', 'l')
+            ->select('s', 'l')
+            ->join('s.location', 'l')
+            ->where('s.location = l.id')
             ->getQuery()
-            ->getResult();
-
-        /*return $this->createQueryBuilder('s')
-            ->andWhere('s.type = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(1000)
-            ->getQuery()
-            ->getResult()
-            ;*/
-        // to get just one result:
-        // $product = $query->setMaxResults(1)->getOneOrNullResult();
+            ->getArrayResult();
     }
 
 //    /**

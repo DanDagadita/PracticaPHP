@@ -39,6 +39,13 @@ class LocationRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllCities(): array
+    {
+        return $this->createQueryBuilder('l')
+            ->select('l.city')
+            ->getQuery()
+            ->getArrayResult();
+    }
 //    /**
 //     * @return Location[] Returns an array of Location objects
 //     */

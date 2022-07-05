@@ -9,3 +9,7 @@ kernel:
 app_charge_home:
     path: /
     controller: App\Controller\HomeController::index
+
+app_charge_booking:
+    path: /booking
+    controller: App\Controller\BookingController::index

@@ -26,8 +26,8 @@ class LocationFixtures extends Fixture
                 $owner_first_names = ['Georgică', 'Gigel', 'Ion', 'Marcu', 'Marcel', 'Dănuț'];
                 $owner_last_names = ['Popescu', 'Ionescu', 'Eminescu', 'Popovici', 'Tudor', 'Jianu'];
                 $location->setName($owner_first_names[rand(0, count($owner_first_names) - 1)] . ' ' . $owner_last_names[rand(0, count($owner_last_names) - 1)] . "'s Charging Location");
-                $location->setLatitude($city_latitude + rand(-3, 3) / 100);
-                $location->setLongitude($city_longitude + rand(-3, 3) / 100);
+                $location->setLatitude($city_latitude + rand(-30, 30) / 1000);
+                $location->setLongitude($city_longitude + rand(-30, 30) / 1000);
                 $location->setPrice(rand(10, 30) / 10);
                 $location->setCity($city_name);
 

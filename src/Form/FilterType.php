@@ -27,9 +27,9 @@ class FilterType extends AbstractType
                     'Type 2' => 'Type 2'
                 ]
             ])
-            ->add('submit', SubmitType::class, array(
+            ->add('submit', SubmitType::class, [
                 'label' => 'Filter'
-            ));
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

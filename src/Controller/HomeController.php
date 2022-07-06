@@ -72,36 +72,6 @@ class HomeController extends AbstractController
         $type2 = array_values($type2);
         $total_types = array_values($total_types);
 
-        //dd($total_types, $type1, $type2);
-        /*dd($total_types);
-
-        for ($i = 0; $i < count($locations); $i++) {
-            $type1[$i] = 0; $type2[$i] = 0;
-            $found = false;
-            $current_stations = [];
-            for ($s = 0; $s < count($stations); $s++) {
-                if ($stations[$s]['location']['id'] == $locations[$i]->getId()) {
-                    $current_stations[$i] = $stations[$s];
-                }
-            }
-
-            for ($j = 0; $j < count($current_stations); $j++) {
-                if ($current_stations[$j]['type'] === $type) {
-                    $found = true;
-                }
-                if ($current_stations[$j]['type'] === 'Type 1') {
-                    $type1[$i]++;
-                }
-                else {
-                    $type2[$i]++;
-                }
-            }
-            if (!$found && $type !== 'Any') {
-                unset($locations[$i]);
-            }
-            $total_types[$i] = $type1[$i] + $type2[$i];
-        }*/
-
         return $this->renderForm('home/index.html.twig', [
             'locations' => $locations,
             'form' => $form,

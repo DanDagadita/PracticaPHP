@@ -4,6 +4,7 @@ namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
@@ -15,16 +16,14 @@ class BookingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('time', TimeType::class, [
-                'label' => 'Choose a booking time: ',
-                'input'  => 'datetime',
-                'widget' => 'choice',
-                'mapped' => false,
-            ])
-            ->add('date', DateType::class, [
+            ->add('startDateTime', DateTimeType::class, [
                 'label' => 'Choose a booking date: ',
-                'widget' => 'choice',
                 'mapped' => false,
+                'widget' => 'single_text',
+                'placeholder' => [
+                    'year' => date('Y'), 'month' => date('F'), 'day' => date('j'),
+                    'hour' => date('H'), 'second' => '00',
+                ]
             ])
             ->add('duration', ChoiceType::class, [
                 'label' => 'Choose a duration: ',

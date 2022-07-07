@@ -15,6 +15,13 @@
 <div class="upper">
     <a href="/"><h1 style="color: white; margin: auto; padding-top: 30px; padding-left: 30px; font-family: Arial, sans-serif;">Charger</h1></a>
 </div>
+
+<div class="location">
+    <a href="/login"><p>Login</p></a>
+    <a href="/logout"><p>Logout</p></a>
+    <a href="/register"><p>Register</p></a>
+</div>
+
 <div id="map"></div>
 
 {% include 'filter/index.html.twig' %}
@@ -36,6 +43,7 @@
     <p id="spots2">Type 2 spots: </p>
     <p id="spots_e1">Type 1 empty spots: </p>
     <p id="spots_e2">Type 2 empty spots: </p>
+    <a id="book" href="/booking/1"><button>Book 1</button></a>
 </div>
 
 <script>
@@ -56,9 +64,10 @@
     document.getElementById("spots").innerHTML = "Total spots: " + {{ total_typesarr|first }};
     document.getElementById("spots1").innerHTML = "Type 1 spots: " + {{ type1arr|first }};
     document.getElementById("spots2").innerHTML = "Type 2 spots: " + {{ type2arr|first }};
-
+    document.getElementById("book").innerHTML = "<button>Book " + {{ locations|first.getId }} + "</button>";
+    document.getElementById("book").setAttribute("href", "/booking/" + {{ locations|first.getId }});
     {% for location in locations %}
-        PlaceMarkersMap(map, {{ location.getLongitude }}, {{ location.getLatitude }}, "{{ location.getName }}", {{ type1arr[loop.index0] }}, {{ type2arr[loop.index0] }}, {{ total_typesarr[loop.index0] }});
+        PlaceMarkersMap(map, {{ location.getLongitude }}, {{ location.getLatitude }}, "{{ location.getName }}", {{ type1arr[loop.index0] }}, {{ type2arr[loop.index0] }}, {{ total_typesarr[loop.index0] }}, {{ location.getId }});
     {% endfor %}
 </script>
 </body>

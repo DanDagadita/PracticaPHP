@@ -13,3 +13,7 @@ app_charge_home:
 app_charge_booking:
     path: /booking
     controller: App\Controller\BookingController::index
+
+app_logout:
+    path: /logout
+    methods: GET

@@ -19,8 +19,7 @@ class Car
     #[ORM\Column(type: 'string', length: 255)]
     private $charger_type;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'cars')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\OneToOne(mappedBy: 'car', targetEntity: User::class, cascade: ['persist', 'remove'])]
     private $user;
 
     public function getId(): ?int
@@ -57,8 +56,13 @@ class Car
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(User $user): self
     {
+        // set the owning side of the relation if necessary
+        if ($user->getCar() !== $this) {
+            $user->setCar($this);
+        }
+
         $this->user = $user;
 
         return $this;

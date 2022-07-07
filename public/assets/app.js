@@ -11,7 +11,7 @@ function GenerateMap(longitude, latitude, zoom)
     return map;
 }
 
-function PlaceMarkersMap(map, longitude, latitude, name, type1, type2, total)
+function PlaceMarkersMap(map, longitude, latitude, name, type1, type2, total, id)
 {
     let layer = L.marker({
         lon: longitude,
@@ -22,5 +22,7 @@ function PlaceMarkersMap(map, longitude, latitude, name, type1, type2, total)
         document.getElementById("spots").innerHTML = "Total spots: " + total;
         document.getElementById("spots1").innerHTML = "Type 1 spots: " + type1;
         document.getElementById("spots2").innerHTML = "Type 2 spots: " + type2;
+        document.getElementById("book").innerHTML = "<button>Book " + id + "</button>";
+        document.getElementById("book").setAttribute("href", "/booking/" + id);
     });
 }

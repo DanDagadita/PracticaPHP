@@ -13,7 +13,7 @@ class Booking
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\OneToOne(targetEntity: Car::class, cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: Car::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private $car;
 

@@ -17,7 +17,7 @@ class Booking
     #[ORM\JoinColumn(nullable: false)]
     private $car;
 
-    #[ORM\OneToOne(inversedBy: 'booking', targetEntity: Station::class, cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'booking', targetEntity: Station::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private $station;
 

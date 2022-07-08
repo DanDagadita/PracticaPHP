@@ -35,12 +35,9 @@ class LocationFixtures extends Fixture
                     $station = new Station();
 
                     $station->setLocation($location);
-                    if ($has_only_one_charger_type === 0)
-                    {
+                    if ($has_only_one_charger_type === 0) {
                         $station->setType("Type " . rand(1, 2));
-                    }
-                    else
-                    {
+                    } else {
                         $station->setType("Type " . $unique_charger_type);
                     }
                     $station->setPower(rand(100, 200) / 10);

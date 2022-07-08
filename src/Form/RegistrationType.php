@@ -67,8 +67,7 @@ class RegistrationType extends AbstractType
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Register'
-            ]);
-        ;
+            ]);;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

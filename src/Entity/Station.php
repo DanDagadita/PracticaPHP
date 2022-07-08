@@ -23,7 +23,7 @@ class Station
     #[ORM\Column(type: 'float')]
     private $power;
 
-    #[ORM\OneToOne(mappedBy: 'station', targetEntity: Booking::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'station', targetEntity: Booking::class, cascade: ['persist', 'remove'])]
     private $booking;
 
     public function getId(): ?int

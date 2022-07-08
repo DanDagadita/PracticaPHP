@@ -38,6 +38,10 @@ class BookingController extends AbstractController
             $current_user = $doctrine->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
             $car = $current_user->getCar();
             //dd($car->getLicensePlate());
+            //@TODO
+            //SELECT *
+            //FROM `booking` AS b
+            //WHERE NOT ('2022-09-09 08:00:00' >= b.charge_start OR b.charge_end >= '2022-09-09 11:00:00');
             $booking_object->setCar($car);
             $stations = $doctrine->getRepository(Station::class)->findBy(['id' => $booking_id]);
 

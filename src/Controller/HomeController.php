@@ -28,29 +28,31 @@ class HomeController extends AbstractController
 
         $form->handleRequest($request);
 
-        $city = 'Any'; $type = 'Any';
+        $city = 'Any';
+        $type = 'Any';
         if ($form->isSubmitted() && $form->isValid()) {
             $city = $form->get('city')->getData();
             $type = $form->get('type')->getData();
         }
 
-        $type1 = []; $type2 = []; $total_types = [];
-        $type1[0] = 0; $type2[0] = 0;
+        $type1 = [];
+        $type2 = [];
+        $total_types = [];
+        $type1[0] = 0;
+        $type2[0] = 0;
         $found = false;
         $location_index = 0;
         for ($s = 1; $s < count($stations); $s++) {
             if ($stations[$s]['location']['id'] === $stations[$s - 1]['location']['id'] && ($s !== count($stations) - 1)) {
                 if ($stations[$s]['type'] === 'Type 1') {
                     $type1[$location_index]++;
-                }
-                else {
+                } else {
                     $type2[$location_index]++;
                 }
-                if ($stations[$s]['type'] === $type){
+                if ($stations[$s]['type'] === $type) {
                     $found = true;
                 }
-            }
-            else {
+            } else {
                 $total_types[$location_index] = $type1[$location_index] + $type2[$location_index];
 
                 if ((!$found && $type !== 'Any') || ($city !== $locations[$location_index]->getCity() && $city !== 'Any')) {

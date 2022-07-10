@@ -5,7 +5,9 @@
         <title>Register</title>
     </head>
 
-    <div class="location">
+    {% include 'nav/index.html.twig' %}
+
+    <div class="container mb-md-4 mt-md-4" style="min-height: 60vh;">
         <h1>Register</h1>
 
         {{ form(form) }}
@@ -13,5 +15,7 @@
         <p>Already have an account? <a href="/login">Login</a></p>
 
     </div>
+
+    {% include 'footer/index.html.twig' %}
 
 {% endblock %}

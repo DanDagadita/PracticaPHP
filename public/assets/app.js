@@ -1,5 +1,4 @@
-function GenerateMap(longitude, latitude, zoom)
-{
+function GenerateMap(longitude, latitude, zoom) {
     let map = L.map('map').setView({lon: longitude, lat: latitude}, zoom);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -11,18 +10,18 @@ function GenerateMap(longitude, latitude, zoom)
     return map;
 }
 
-function PlaceMarkersMap(map, longitude, latitude, name, type1, type2, total, id)
-{
-    let layer = L.marker({
+function PlaceMarkersMap(map, longitude, latitude, name, type1, type2, total, id) {
+    L.marker({
         lon: longitude,
         lat: latitude
-    }).bindPopup(name).addTo(map);
-    layer.on('click', function (e) {
-        document.getElementById("loc").innerHTML = "Location name is: " + name;
-        document.getElementById("spots").innerHTML = "Total spots: " + total;
-        document.getElementById("spots1").innerHTML = "Type 1 spots: " + type1;
-        document.getElementById("spots2").innerHTML = "Type 2 spots: " + type2;
-        document.getElementById("book").innerHTML = "<button>Book " + id + "</button>";
-        document.getElementById("book").setAttribute("href", "/booking/" + id);
-    });
+    }).bindPopup(
+        "<div>" +
+        "<h4 class='fw-bold'>" + name + "</h4>" +
+        "<h6>Type 1 spots: " + type1 + "</h6>" +
+        "<h6>Type 2 spots: " + type2 + "</h6>" +
+        "<h6>Total spots: " + total + "</h6>" +
+        "<a href='/booking/" + id + "'><button class='btn btn-primary mt-md-2'>" +
+        "Book</button></a>" +
+        "</div>"
+    ).addTo(map);
 }

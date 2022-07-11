@@ -39,6 +39,20 @@ class BookingRepository extends ServiceEntityRepository
         }
     }
 
+    public function findBookingsInInterval($charge_start, $charge_end, $station_id): array
+    {
+        return $this->createQueryBuilder('b')
+            ->select('b')
+            ->andWhere('b.charge_end >= :charge_start')
+            ->andWhere('b.charge_start <= :charge_end')
+            ->andWhere('b.station = :station_id')
+            ->setParameter('charge_start', $charge_start)
+            ->setParameter('charge_end', $charge_end)
+            ->setParameter('station_id', $station_id)
+            ->getQuery()
+            ->getArrayResult();
+    }
+
 //    /**
 //     * @return Booking[] Returns an array of Booking objects
 //     */

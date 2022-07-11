@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <head>
+        <title>Profile</title>
+    </head>
+
+    {% include 'nav/index.html.twig' %}
+
+    <div class="container mb-md-4 mt-md-4" style="min-height: 60vh;">
+        <h1>My profile</h1>
+        <p>Name: {{ user.getName }}</p>
+        <p>Cars: {{ user.getCar.getLicensePlate }}</p> <!-- %TODO this adds a query, fix this -->
+        <a href="/bookings"><p>My bookings</p></a>
+        <a class="btn btn-primary mt-md-2" href="/addcar">Add new car</a>
+    </div>
+
+    {% include 'footer/index.html.twig' %}
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <head>
+        <title>Bookings</title>
+    </head>
+
+    {% include 'nav/index.html.twig' %}
+
+    <div class="container mb-md-4 mt-md-4" style="min-height: 60vh;">
+        <h1>My bookings</h1>
+        {% for booking in bookings %}
+        <div class="border rounded" style="padding: 30px">
+            <h4>Booking {{ loop.index }}:</h4>
+            <p>Charging start: {{ booking.getChargeStart|date('Y-m-d H:i') }}</p>
+            <p>Charging end: {{ booking.getChargeEnd|date('Y-m-d H:i') }}</p>
+            <p>Car license plate: {{ booking.getCar.getLicensePlate }}</p>
+            <a class="btn btn-primary mt-md-2" href="/booking/edit/{{ booking.getId }}">Edit booking</a>
+            <a class="btn btn-primary mt-md-2" href="#">Delete booking</a>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% include 'footer/index.html.twig' %}
+
+{% endblock %}

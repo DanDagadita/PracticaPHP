@@ -2,18 +2,14 @@
 
 {% block body %}
     <head>
-        <title>Booking</title>
+        <title>Edit booking</title>
     </head>
 
     {% include 'nav/index.html.twig' %}
 
     <div class="container mb-md-4 mt-md-4" style="min-height: 60vh;">
-        <h1>Booking for location ID: {{ booking_id }}</h1>
-
+        <h1>Editing booking ID: {{ booking_id }}</h1>
         {{ form(form) }}
-        {% if booking_error %}
-        <p>Please select an available charging interval.</p>
-        {% endif %}
     </div>
 
     {% include 'footer/index.html.twig' %}

@@ -33,15 +33,20 @@ class BookingController extends AbstractController
             $booking_data_end = $form->get('startDateTime')->getData();
             $booking_data_end->add(DateInterval::createFromDateString($booking_data_end_hours . ' hours'));
             // dd($booking_data_start, $booking_data_end, $booking_data_end_hours);
+
+            $bookings_in_interval = $doctrine->getRepository(Booking::class)->findBookingsInInterval($booking_data_start, $booking_data_end, $booking_id);
+            if (count($bookings_in_interval) > 0) {
+                return $this->renderForm('booking/index.html.twig', [
+                    'form' => $form,
+                    'booking_id' => $booking_id,
+                    'booking_error' => 1,
+                ]);
+            }
             $booking_object->setChargeStart($booking_data_start);
             $booking_object->setChargeEnd($booking_data_end);
             $current_user = $doctrine->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
             $car = $current_user->getCar();
-            //dd($car->getLicensePlate());
-            //@TODO
-            //SELECT *
-            //FROM `booking` AS b
-            //WHERE NOT ('2022-09-09 08:00:00' >= b.charge_start OR b.charge_end >= '2022-09-09 11:00:00');
+            //dd($bookings_in_interval);
             $booking_object->setCar($car);
             $stations = $doctrine->getRepository(Station::class)->findBy(['id' => $booking_id]);
 
@@ -54,7 +59,8 @@ class BookingController extends AbstractController
 
         return $this->renderForm('booking/index.html.twig', [
             'form' => $form,
-            'booking_id' => $booking_id
+            'booking_id' => $booking_id,
+            'booking_error' => 0,
         ]);
     }
 }

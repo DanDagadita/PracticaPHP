@@ -22,7 +22,7 @@
 
     <div class="wrapper border rounded" style="overflow-y: scroll; height: 70vh; width: 60vw;">
         {% for location in locations %}
-            <div class="location border rounded" style="padding: 30px">
+            <div class="border rounded" style="padding: 30px">
                 <h2>{{ location.getName }}</h2>
                 <h6 style="font-weight:normal">Type 1 spots: {{ type1arr[loop.index0] }}</h6>
                 <h6 style="font-weight:normal">Type 2 spots: {{ type2arr[loop.index0] }}</h6>

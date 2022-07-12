@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Booking;
+use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +15,8 @@ class BookingsController extends AbstractController
     public function index(ManagerRegistry $doctrine): Response
     {
         $entityManager = $doctrine->getManager();
-        $bookings = $entityManager->getRepository(Booking::class)->findBy(['car' => 1]);
+        $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
+        $bookings = $entityManager->getRepository(Booking::class)->findBy(['car' => $user->getCar()]);
         return $this->render('bookings/index.html.twig', [
             'controller_name' => 'BookingsController',
             'bookings' => $bookings,

@@ -21,7 +21,7 @@ function PlaceMarkersMap(map, longitude, latitude, name, type1, type2, total, id
         "<h6>Type 2 spots: " + type2 + "</h6>" +
         "<h6>Total spots: " + total + "</h6>" +
         "<a href='/booking/" + id + "'><button class='btn btn-primary mt-md-2'>" +
-        "Book</button></a>" +
+        "View</button></a>" +
         "</div>"
     ).addTo(map);
 }

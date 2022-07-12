@@ -49,6 +49,23 @@ class StationRepository extends ServiceEntityRepository
             ->getArrayResult();
     }
 
+    public function findStationsByFilter($charge_start, $charge_end, $location_id, $type): array
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s')
+            ->join('s.location', 'l')
+            ->where('s.location = l.id')
+            ->andWhere('b.charge_end <= :charge_start OR b.charge_start >= :charge_end')
+            ->andWhere('s.location = :location_id')
+            ->andWhere('s.type = :type')
+            ->setParameter('charge_start', $charge_start)
+            ->setParameter('charge_end', $charge_end)
+            ->setParameter('location_id', $location_id)
+            ->setParameter('type', $type)
+            ->getQuery()
+            ->getArrayResult();
+    }
+
 //    /**
 //     * @return Station[] Returns an array of Station objects
 //     */

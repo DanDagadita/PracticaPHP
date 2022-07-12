@@ -8,11 +8,24 @@
     {% include 'nav/index.html.twig' %}
 
     <div class="container mb-md-4 mt-md-4" style="min-height: 60vh;">
-        <h1>Booking for location ID: {{ booking_id }}</h1>
+        <h1>Add booking for location ID: {{ location_id }}</h1>
 
         {{ form(form) }}
+
         {% if booking_error %}
-        <p>Please select an available charging interval.</p>
+            <p>No stations available for selected time interval and charger type.</p>
+        {% endif %}
+
+        {% if found_stations %}
+            {% for station in stations %}
+                <div class="border rounded" style="padding: 30px">
+                    <h2>Station {{ loop.index }}</h2>
+                    <h6 style="font-weight:normal">Charger type: {{ station['type'] }} </h6>
+                    <a class="btn btn-primary mt-md-2" href="/book/{{ station['id'] }}/{{ booking_data_start }}/{{ booking_data_end }}">
+                        Book
+                    </a>
+                </div>
+            {% endfor %}
         {% endif %}
     </div>
 

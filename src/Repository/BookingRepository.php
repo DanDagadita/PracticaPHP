@@ -53,6 +53,31 @@ class BookingRepository extends ServiceEntityRepository
             ->getArrayResult();
     }
 
+    public function findStationsByFilterType($charge_start, $charge_end, $location_id, $type): array
+    {
+        return $this->getEntityManager()->createQuery('SELECT s FROM App\Entity\Station s WHERE s.id NOT IN (SELECT DISTINCT st.id FROM App\Entity\Station st JOIN App\Entity\Booking b WHERE st.id=b.station
+        AND (b.charge_end>=:charge_start AND b.charge_start<=:charge_end)) AND s.location=:location_id AND s.type=:type')
+            ->setParameter('charge_start', $charge_start)
+            ->setParameter('charge_end', $charge_end)
+            ->setParameter('location_id', $location_id)
+            ->setParameter('type', $type)
+            /*
+             * SELECT * FROM station WHERE station.id NOT IN (SELECT DISTINCT station.id FROM station JOIN booking WHERE station.id=booking.station_id
+             * AND (booking.charge_end>='2022-07-12 00:44:48' AND booking.charge_start<='2022-07-12 02:44:48')) AND station.location_id=1 AND station.type='Type 2';
+             */
+            ->getArrayResult();
+    }
+
+    public function findStationsByFilter($charge_start, $charge_end, $location_id): array
+    {
+        return $this->getEntityManager()->createQuery('SELECT s FROM App\Entity\Station s WHERE s.id NOT IN (SELECT DISTINCT st.id FROM App\Entity\Station st JOIN App\Entity\Booking b WHERE st.id=b.station
+        AND (b.charge_end>=:charge_start AND b.charge_start<=:charge_end)) AND s.location=:location_id')
+            ->setParameter('charge_start', $charge_start)
+            ->setParameter('charge_end', $charge_end)
+            ->setParameter('location_id', $location_id)
+            ->getArrayResult();
+    }
+
 //    /**
 //     * @return Booking[] Returns an array of Booking objects
 //     */

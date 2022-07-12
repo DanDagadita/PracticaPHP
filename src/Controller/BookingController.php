@@ -3,12 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Booking;
-use App\Entity\Car;
-use App\Entity\Station;
-use App\Entity\User;
 use App\Form\BookingType;
 use DateInterval;
-use DateTime;
 use DateTimeImmutable;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,49 +14,46 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BookingController extends AbstractController
 {
-    #[Route('/booking/{booking_id}', name: 'app_booking')]
-    public function index(Request $request, $booking_id, ManagerRegistry $doctrine): Response
+    #[Route('/booking/{location_id}', name: 'app_booking')]
+    public function index(Request $request, $location_id, ManagerRegistry $doctrine): Response
     {
         $booking = new BookingType();
-        $entityManager = $doctrine->getManager();
-        $booking_object = new Booking();
         $form = $this->createForm(BookingType::class, $booking);
-
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $error = false;
+            $found = true;
             $booking_data_end_hours = $form->get('duration')->getData();
             $booking_data_start = DateTimeImmutable::createFromMutable($form->get('startDateTime')->getData());
             $booking_data_end = $form->get('startDateTime')->getData();
             $booking_data_end->add(DateInterval::createFromDateString($booking_data_end_hours . ' hours'));
-            // dd($booking_data_start, $booking_data_end, $booking_data_end_hours);
-
-            $bookings_in_interval = $doctrine->getRepository(Booking::class)->findBookingsInInterval($booking_data_start, $booking_data_end, $booking_id);
-            if (count($bookings_in_interval) > 0) {
-                return $this->renderForm('booking/index.html.twig', [
-                    'form' => $form,
-                    'booking_id' => $booking_id,
-                    'booking_error' => 1,
-                ]);
+            $charger_type = $form->get('charger_type')->getData();
+            if ($charger_type === 'Any') {
+                $found_stations = $doctrine->getRepository(Booking::class)->findStationsByFilter($booking_data_start, $booking_data_end, $location_id);
+            } else {
+                $found_stations = $doctrine->getRepository(Booking::class)->findStationsByFilterType($booking_data_start, $booking_data_end, $location_id, $charger_type);
             }
-            $booking_object->setChargeStart($booking_data_start);
-            $booking_object->setChargeEnd($booking_data_end);
-            $current_user = $doctrine->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
-            $car = $current_user->getCar();
-            //dd($bookings_in_interval);
-            $booking_object->setCar($car);
-            $stations = $doctrine->getRepository(Station::class)->findBy(['id' => $booking_id]);
+            if (count($found_stations) === 0) {
+                $error = true;
+                $found = false;
+            }
 
-            $booking_object->setStation($stations[0]);
-            $entityManager->persist($booking_object);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_home');
+            return $this->renderForm('booking/index.html.twig', [
+                'form' => $form,
+                'location_id' => $location_id,
+                'booking_error' => $error,
+                'found_stations' => $found,
+                'stations' => $found_stations,
+                'booking_data_start' => $booking_data_start->format('U'),
+                'booking_data_end' => $booking_data_end->format('U')
+            ]);
         }
 
         return $this->renderForm('booking/index.html.twig', [
             'form' => $form,
-            'booking_id' => $booking_id,
-            'booking_error' => 0,
+            'location_id' => $location_id,
+            'booking_error' => false,
+            'found_stations' => false
         ]);
     }
 }

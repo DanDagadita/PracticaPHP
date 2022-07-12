@@ -32,8 +32,17 @@ class BookingType extends AbstractType
                     '3 hours' => 3
                 ]
             ])
+            ->add('charger_type', ChoiceType::class, [
+                'label' => 'Choose a type: ',
+                'mapped' => false,
+                'choices' => [
+                    'Any' => 'Any',
+                    'Type 1' => 'Type 1',
+                    'Type 2' => 'Type 2'
+                ]
+            ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Submit'
+                'label' => 'Filter'
             ]);
     }
 

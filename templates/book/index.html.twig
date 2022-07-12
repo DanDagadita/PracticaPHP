@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <head>
+        <title>Book</title>
+    </head>
+
+    {% include 'nav/index.html.twig' %}
+
+    <div class="container mb-md-4 mt-md-4" style="min-height: 60vh;">
+        <h1>Success!</h1>
+
+        <p>Added booking for station ID: {{ station_id }}</p>
+    </div>
+
+    {% include 'footer/index.html.twig' %}
+
+{% endblock %}

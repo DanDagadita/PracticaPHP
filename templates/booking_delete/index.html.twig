@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <head>
+        <title>Book</title>
+    </head>
+
+    {% include 'nav/index.html.twig' %}
+
+    <div class="container mb-md-4 mt-md-4" style="min-height: 60vh;">
+        {% if found %}
+            <h1>Success!</h1>
+
+            <p>Deleted booking with ID: {{ booking_id }}</p>
+        {% else %}
+            <h1>Failed!</h1>
+
+            <p>Failed to delete booking with ID: {{ booking_id }}</p>
+            <p>Booking does not exist.</p>
+        {% endif %}
+    </div>
+
+    {% include 'footer/index.html.twig' %}
+
+{% endblock %}

@@ -16,10 +16,13 @@ class BookController extends AbstractController
     #[Route('/book/{station_id}/{booking_data_start}/{booking_data_end}', name: 'app_book')]
     public function index($station_id, $booking_data_start, $booking_data_end, ManagerRegistry $doctrine): Response
     {
+        if (!$this->getUser()) { return $this->redirectToRoute('app_home'); }
+
         $booking_data_start = (new DateTime)->setTimestamp($booking_data_start);
         $booking_data_end = (new DateTime)->setTimestamp($booking_data_end);
         $entityManager = $doctrine->getManager();
         $booking_object = new Booking();
+        //@TODO Verify if charge start is after current date and verify if the time is available and not conflicting with other bookings
         $booking_object->setChargeStart($booking_data_start);
         $booking_object->setChargeEnd($booking_data_end);
         $current_user = $doctrine->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);

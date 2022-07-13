@@ -12,6 +12,10 @@
 
         {{ form(form) }}
 
+        {% if incorrect_date %}
+            <p>Please select a date from the future.</p>
+        {% endif %}
+
         {% if booking_error %}
             <p>No stations available for selected time interval and charger type.</p>
         {% endif %}

@@ -15,8 +15,10 @@
             <p>Charging start: {{ booking.getChargeStart|date('Y-m-d H:i') }}</p>
             <p>Charging end: {{ booking.getChargeEnd|date('Y-m-d H:i') }}</p>
             <p>Car license plate: {{ booking.getCar.getLicensePlate }}</p>
+            <p>Location name: {{ booking.getStation.getLocation.getName }}</p>
+            <p>Station ID: {{ booking.getStation.getId }}</p>
             <a class="btn btn-primary mt-md-2" href="/booking/edit/{{ booking.getId }}">Edit booking</a>
-            <a class="btn btn-primary mt-md-2" href="#">Delete booking</a>
+            <a class="btn btn-primary mt-md-2" href="/booking/delete/{{ booking.getId }}">Delete booking</a>
         </div>
         {% endfor %}
     </div>

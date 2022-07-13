@@ -13,6 +13,8 @@ class ProfileController extends AbstractController
     #[Route('/profile', name: 'app_profile')]
     public function index(ManagerRegistry $doctrine): Response
     {
+        if (!$this->getUser()) { return $this->redirectToRoute('app_home'); }
+
         $entityManager = $doctrine->getManager();
         $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
         return $this->render('profile/index.html.twig', [
